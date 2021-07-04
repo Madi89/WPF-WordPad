@@ -1,0 +1,111 @@
+﻿<Window x:Class="WPF_WordPad.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WPF_WordPad"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="ApplicationCommands.New" Executed="CommandNew_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Open" Executed="CommandOpen_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Save" Executed="CommandSave_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Print" Executed="CommandPrint_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Close" Executed="CommandExit_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Undo" Executed="CommandUndo_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Redo" Executed="CommandRedo_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Cut" Executed="CommandCut_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Copy" Executed="CommandCopy_Executed"/>
+        <CommandBinding Command="ApplicationCommands.Paste" Executed="CommandPaste_Executed"/>
+    </Window.CommandBindings>
+    <DockPanel>
+        <!--#region Menu-->
+        <Menu DockPanel.Dock="Top">
+            <!--#region First MenuTab-->
+            <MenuItem Header="File">            <!--First tab of the menu-->
+                <MenuItem Header="_New" Command="ApplicationCommands.New" ToolTip="New"/>
+                <MenuItem Header="_Open" Command="ApplicationCommands.Open" ToolTip="Open a File"/>
+                <MenuItem Header="_Save" Command="ApplicationCommands.Save" ToolTip="Save"/>
+                <MenuItem Header="Save _As"/>
+                <Separator/>
+                <MenuItem Header="Page Setup"/>
+                <MenuItem Header="Print" Command="ApplicationCommands.Print"/>
+                <Separator/>
+                <MenuItem Header="Exit" Command="ApplicationCommands.Close"/>
+            </MenuItem>
+            <!--#endregion First MenuTab-->
+            <!--#region Second MenuTab-->
+            <MenuItem Header="Edit">            <!--Second tab of the menu-->
+                <MenuItem Header="_Undo" Command="ApplicationCommands.Undo"/>
+                <MenuItem Header="_Redo" Command="ApplicationCommands.Redo"/>
+                <Separator/>
+                <MenuItem Header="Cut" Command="ApplicationCommands.Cut"/>
+                <MenuItem Header="_Copy" Command="ApplicationCommands.Copy"/>
+                <MenuItem Header="_Paste" Command="ApplicationCommands.Paste"/>
+                <MenuItem Header="_Delete"/>
+                <Separator/>
+                <MenuItem Header="_Find..."/>
+                <MenuItem Header="Find _Next"/>
+                <MenuItem Header="Replace..."/>
+                <MenuItem Header="Go To..."/>
+                <Separator/>
+                <MenuItem Header="Select _All"/>
+                <MenuItem Header="Time/Date"/>
+            </MenuItem>
+            <!--#endregion Second MenuTab-->
+            <!--#region Third MenuTab-->
+            <MenuItem Header="Format">          <!--Third tab of the menu-->
+                <MenuItem Header="World Wrap"/>
+                <MenuItem Header="Font..."/>
+            </MenuItem>
+            <!--#endregion Third MenuTab-->
+            <!--#region Fourth MenuTab-->
+            <MenuItem Header="View">            <!--Fourth tab of the menu-->          
+                <MenuItem Header="Zoom">        <!--Sublayer-->        
+                    <MenuItem Header="Zoom _In"/>
+                    <MenuItem Header="Zoom _Out"/>
+                    <MenuItem Header="Restore _Default Zoom"/>
+                </MenuItem>
+            </MenuItem>
+            <!--#endregion Fourth MenuTab-->
+        </Menu>
+        <!--#endregion Menu-->
+        <!--#region ToolBar-->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar FontSize="16">         <!--TODO: Use Images for the Button-->
+                <Button Content="New" Command="ApplicationCommands.New" ToolTip="New Document"></Button>
+                <Button Content="Open" Command="ApplicationCommands.Open" ToolTip="Load Document"></Button>
+                <Button Content="Save" Command="ApplicationCommands.Save" ToolTip="Save Document"></Button>
+            </ToolBar>
+            <ToolBar FontFamily="Wingdings" FontSize="16">      <!--TODO:Change Wingdings to own Image.Only for Example-->
+                <Button Command="ApplicationCommands.Cut" ToolTip="Cut">"</Button>
+                <Button Command="ApplicationCommands.Copy" ToolTip="Copy">4</Button>
+                <Button Command="ApplicationCommands.Paste" ToolTip="Paste">@</Button>
+            </ToolBar>
+            <ToolBar>
+                <Label>Font size:</Label>
+                <ComboBox x:Name="cmbSize" FontSize="12" Width="30" Height="15">
+                    <ComboBoxItem>8</ComboBoxItem>
+                    <ComboBoxItem>10</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">12</ComboBoxItem>
+                    <ComboBoxItem>14</ComboBoxItem>
+                    <ComboBoxItem>16</ComboBoxItem>
+                    <ComboBoxItem>18</ComboBoxItem>
+                    <ComboBoxItem>20</ComboBoxItem>
+                </ComboBox>
+                <ComboBox x:Name="cmbStyle" FontSize="12" Width="100" Height="15">
+                    <ComboBoxItem>Oblique</ComboBoxItem>
+                    <ComboBoxItem>Italic</ComboBoxItem>
+                    <ComboBoxItem IsSelected="True">Normal</ComboBoxItem>
+                    <!--ToDo:Font style-->
+                </ComboBox>
+            </ToolBar>
+        </ToolBarTray>
+       <!--#endregion ToolBar--> 
+        <TextBox x:Name="txtEditor"
+                 FontSize="{Binding Path=SelectedItem.Content, ElementName=cmbSize}"
+                 FontStyle="{Binding Path=SelectedItem.Content, ElementName=cmbStyle}"
+                 VerticalScrollBarVisibility="Auto"
+                 TextWrapping="Wrap" AcceptsReturn="True" AcceptsTab="True" Background="{x:Null}"/>      <!--When loading a file, a scrollbar is automatically created-->              
+    </DockPanel>
+</Window>
